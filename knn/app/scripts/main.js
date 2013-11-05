@@ -99,9 +99,9 @@ function rotateCamera() {
 function moveBalls() {
 	balls.forEach(function (ball) {
 		var position = ball.sphere.position;
-		position.x += ball.xSpeed * 5;
-		position.y += ball.ySpeed * 5;
-		position.z += ball.zSpeed * 5;
+		position.x += ball.xSpeed * 10;
+		position.y += ball.ySpeed * 10;
+		position.z += ball.zSpeed * 10;
 		if (Math.abs(position.x) > (cubeLength / 2)) ball.xSpeed *= -1;
 		if (Math.abs(position.y) > (cubeLength / 2)) ball.ySpeed *= -1;
 		if (Math.abs(position.z) > (cubeLength / 2)) ball.zSpeed *= -1;
