@@ -1,14 +1,15 @@
 var width = window.innerWidth,
 	height = window.innerHeight,
-	k = 10,
+	k = 15,
 	cubeLength = 250,
 	deg = 0,
+	speed = 10,
 	balls = [],
 	ballRadius = 6,
-	numberOfBalls = 3,
+	numberOfBalls = 5,
 	points = [],
 	pointRadius = 2,
-	numberOfPoints = 400,
+	numberOfPoints = 500,
 	camera, scene, renderer, tree;
 
 init();
@@ -64,6 +65,7 @@ function createMovingBalls() {
 		scene.add(sphere);
 		balls.push(ball);
 	}
+	console.log(balls[0]);
 
 }
 
@@ -99,9 +101,9 @@ function rotateCamera() {
 function moveBalls() {
 	balls.forEach(function (ball) {
 		var position = ball.sphere.position;
-		position.x += ball.xSpeed * 10;
-		position.y += ball.ySpeed * 10;
-		position.z += ball.zSpeed * 10;
+		position.x += ball.xSpeed * speed;
+		position.y += ball.ySpeed * speed;
+		position.z += ball.zSpeed * speed;
 		if (Math.abs(position.x) > (cubeLength / 2)) ball.xSpeed *= -1;
 		if (Math.abs(position.y) > (cubeLength / 2)) ball.ySpeed *= -1;
 		if (Math.abs(position.z) > (cubeLength / 2)) ball.zSpeed *= -1;
@@ -113,26 +115,29 @@ function showKNearestPointsForBall(ball) {
 	ball.activePoints.forEach(function (point) {
 		point.sphere.visible = false;
 	});
+	ball.activePoints = [];
 	ball.activeLines.forEach(function (line) {
 		scene.remove(line);
 	});
+	ball.activeLines = [];
 	var nearest = findNearest(ball);
 	nearest.forEach(function (near) {
-		var point = near[0]
-		point.sphere.visible = true;
-		ball.activePoints.push(point);
-		// point.sphere.material.color = ball.sphere.material.color;
+		var point = near[0];
+		if (!point.sphere.visible) {
+			point.sphere.visible = true;
+			point.sphere.material = ball.sphere.material;
+			ball.activePoints.push(point);
 
-		// debugger;
-		var material = new THREE.LineBasicMaterial();
-		material.color = ball.sphere.material.color;
-		var geometry = new THREE.Geometry();
-		geometry.vertices.push(ball.sphere.position);
-		geometry.vertices.push(point.sphere.position);
-		var line = new THREE.Line(geometry, material);
-		scene.add(line);
-		ball.activeLines.push(line);
-
+			// debugger;
+			var material = new THREE.LineBasicMaterial();
+			material.color = ball.sphere.material.color;
+			var geometry = new THREE.Geometry();
+			geometry.vertices.push(ball.sphere.position);
+			geometry.vertices.push(point.sphere.position);
+			var line = new THREE.Line(geometry, material);
+			scene.add(line);
+			ball.activeLines.push(line);
+		}
 	});
 }
 
