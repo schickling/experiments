@@ -1,27 +1,28 @@
 var width = window.innerWidth,
 	height = window.innerHeight,
-	k = 15,
 	cubeLength = 250,
 	deg = 0,
 	speed = 10,
 	balls = [],
 	ballRadius = 6,
-	numberOfBalls = 5,
 	points = [],
 	pointRadius = 2,
-	numberOfPoints = 500,
-	camera, scene, renderer, tree;
+	k, numberOfBalls, numberOfPoints, camera, scene, renderer, tree;
 
 init();
 animate();
 
-
 function init() {
 	setupEnv();
+	initListener();
+	build();
+}
+
+function build () {
 	createCube();
 	createMovingBalls();
 	createHiddenRandomPoints();
-	tree = new kdTree(points, distance, ["x", "y", "z"]);
+	createTree();
 }
 
 function animate() {
@@ -65,7 +66,6 @@ function createMovingBalls() {
 		scene.add(sphere);
 		balls.push(ball);
 	}
-	console.log(balls[0]);
 
 }
 
@@ -89,6 +89,10 @@ function createHiddenRandomPoints() {
 		scene.add(sphere);
 		points.push(point);
 	}
+}
+
+function createTree () {
+	tree = new kdTree(points, distance, ["x", "y", "z"]);
 }
 
 function rotateCamera() {
@@ -165,6 +169,27 @@ function setupEnv() {
 
 	camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000);
 	scene = new THREE.Scene();
+	loadVariables();
+}
+
+function initListener () {
+	$('input').change(function () {
+		reset();
+		setupEnv();
+		build();
+	});
+}
+
+function reset () {
+	balls = [];
+	points = [];
+	$('canvas').remove();
+}
+
+function loadVariables() {
+	k = parseInt($('#k').val(), 10);
+	numberOfBalls = parseInt($('#numberOfBalls').val(), 10);
+	numberOfPoints = parseInt($('#numberOfPoints').val(), 10);
 }
 
 function onWindowResize() {

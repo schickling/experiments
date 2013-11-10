@@ -11,15 +11,30 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
-        <!-- <link rel="stylesheet" href="styles/main.css"> -->
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
     </head>
     <body>
-
+        <div id="controlls">
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon">k</span>
+                <input type="number" class="form-control" value="10" id="k">
+            </div>
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon"># Balls</span>
+                <input type="number" class="form-control" value="5" id="numberOfBalls">
+            </div>
+            <div class="input-group input-group-sm">
+                <span class="input-group-addon"># Points</span>
+                <input type="number" class="form-control" value="500" id="numberOfPoints">
+            </div>
+        </div>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/threejs/build/three.js"></script>
+        <script src="bower_components/jquery/jquery.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
